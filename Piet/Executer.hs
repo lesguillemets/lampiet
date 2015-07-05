@@ -66,7 +66,8 @@ apply Switch _ m@(Machine{mem=(h:r), ..}) =
 apply Duplicate _ m = return . updMemWith (\(x:r) -> x:x:r) $ m
 
 -- TODO
-apply Roll _ _ = undefined
+apply Roll _ m@(Machine {mem=(x:y:r), ..}) =
+        return $ m {mem = roll (fromInteger y) (fromInteger x) r}
 
 apply In _ m = do
     n <- readLn

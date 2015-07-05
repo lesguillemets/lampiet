@@ -1,7 +1,8 @@
 module Helpers (
                cSucc, cPred, cycularMove,
                Direction (..),
-               RL (..)
+               RL (..),
+               roll
                ) where
 
 cSucc :: (Bounded a, Enum a) => a -> a
@@ -29,3 +30,22 @@ cycularMove e n = let
 data Direction = Up | Rt | Dw | Lf deriving (Bounded,Enum,Show)
 
 data RL = RLRight | RLLeft deriving (Bounded,Enum,Show)
+
+roll :: Int -> Int -> [a] -> [a]
+roll depth n xs = let
+    (pre,post) = splitAt depth xs
+    in
+        rotate n  pre ++ post
+
+rotate :: Int -> [a] -> [a]
+rotate n xs = let
+    l = length xs
+    n' = if n > 0 then n
+                  else l + n
+        in
+            take l . drop n' . cycle $ xs
+-- |
+-- >>> rotate 2 [1..4]
+-- [3,4,1,2]
+-- >>> rotate (-1) [1..4]
+-- [4,1,2,3]
