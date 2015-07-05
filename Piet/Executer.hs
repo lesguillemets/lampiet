@@ -11,6 +11,11 @@ data Machine = Machine {
              mem :: [Integer]
 } deriving (Show)
 
+updMemWith :: ([Integer] -> [Integer]) -> Machine -> Machine
+updMemWith f m@(Machine {..}) = m {mem = f mem}
+updMemWithOp :: (Integer -> Integer -> Integer) -> Machine -> Machine
+updMemWithOp op = updMemWith $ \ (x:y:xs) -> (y `op` x):xs
+
 data Command = Push
              | Pop
              | Add
@@ -29,16 +34,44 @@ data Command = Push
              deriving (Show, Read)
 
 apply :: Command -> Integer -> Machine -> IO Machine
+-- the second argument is the value of the colour.
 
-apply Push n m@(Machine {..}) = return $ m{ mem = n:mem }
-apply Pop _  m@(Machine {..}) = return $ m{ mem = tail mem}
-apply Add _ m@(Machine{mem = (x:y:xs), ..}) = return $ m {mem = (x+y):xs}
--- apply Subtract _ (x:y:xs) = return $ (y-x):xs
--- apply Multiply _ (x:y:xs) =  return $ (x*y):xs
--- -- simply ignoreingdevides by zero
--- apply Divide _ r@(x:y:xs) = case x of
---                                 0 -> return r
---                                 _ -> return $ (y `div` x):xs
--- apply Mod _ r@(x:y:xs) = case x of
---                              0 -> return r
---                              _ -> return $ (y `mod` x):xs
+apply Push n m = return . updMemWith (n:) $ m
+apply Pop _  m = return . updMemWith tail $ m
+
+apply Add _ m = return . updMemWithOp (+) $ m
+apply Subtract _ m = return . updMemWithOp (-) $ m
+apply Multiply _ m = return . updMemWithOp (*) $ m
+-- TODO: simply ignoreingdevides by zero
+apply Divide _ m = return . updMemWithOp div $ m
+apply Mod _ m = return . updMemWithOp mod $ m
+
+apply Not _ m = return . updMemWith
+    (\(x:r) -> if x == 0 then 1:r else 0:r) $ m
+apply Greater _ m = return . updMemWithOp
+    (((toInteger . fromEnum) . ) .  (>)) $ m
+
+apply Pointer _ m@(Machine{mem=(h:r), ..}) =
+        return $ m {
+                   dirPointer = cycularMove dirPointer (fromInteger h),
+                   mem=r
+                   }
+
+apply Switch _ m@(Machine{mem=(h:r), ..}) =
+        return $ m {
+                   codelChooser = cycularMove codelChooser (fromInteger h),
+                   mem = r
+        }
+
+apply Duplicate _ m = return . updMemWith (\(x:r) -> x:x:r) $ m
+
+-- TODO
+apply Roll _ _ = undefined
+
+apply In _ m = do
+    n <- readLn
+    return . updMemWith (n:) $ m
+
+apply Out _ m@(Machine{mem=(h:r), ..}) = do
+    print h
+    return $ m{ mem = r}

@@ -1,5 +1,5 @@
 module Helpers (
-               cSucc, cPred,
+               cSucc, cPred, cycularMove,
                Direction (..),
                RL (..)
                ) where
@@ -26,6 +26,6 @@ cycularMove e n = let
     in
         toEnum . (`mod` m) $ n + fromEnum e + m
 
-data Direction = Up | Rt | Dw | Lf deriving (Show)
+data Direction = Up | Rt | Dw | Lf deriving (Bounded,Enum,Show)
 
-data RL = RLRight | RLLeft deriving (Show)
+data RL = RLRight | RLLeft deriving (Bounded,Enum,Show)
