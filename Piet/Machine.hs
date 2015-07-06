@@ -10,3 +10,5 @@ data Machine = Machine {
              mem :: [Integer]
 } deriving (Show)
 
+initialMachine :: Machine
+initialMachine = Machine Rt RLLeft []
