@@ -6,6 +6,7 @@ import Control.Applicative
 import Data.Char
 
 import Machine
+import Colours
 import Helpers
 
 updMemWith :: ([Integer] -> [Integer]) -> Machine -> Machine
@@ -13,7 +14,8 @@ updMemWith f m@(Machine {..}) = m {mem = f mem}
 updMemWithOp :: (Integer -> Integer -> Integer) -> Machine -> Machine
 updMemWithOp op = updMemWith $ \ (x:y:xs) -> (y `op` x):xs
 
-data Command = Push
+data Command = Skip
+             | Push
              | Pop
              | Add
              | Subtract
@@ -30,10 +32,18 @@ data Command = Push
              | InChar
              | OutInt
              | OutChar
-             deriving (Show, Read)
+             deriving (Show, Read, Enum)
+
+fromColours :: Colour -> Colour -> Maybe Command
+fromColours x y = (\(l,h) -> toEnum $ 3*h + l) <$> colourDiff x y
+-- |
+-- >>> fromColours (Chromatic Normal Blue) (Chromatic Light Yellow)
+-- Just Switch
 
 apply :: Command -> Integer -> Machine -> IO Machine
 -- the second argument is the value of the colour.
+
+apply Skip _ m = return m
 
 apply Push n m = return . updMemWith (n:) $ m
 apply Pop _  m = return . updMemWith tail $ m
