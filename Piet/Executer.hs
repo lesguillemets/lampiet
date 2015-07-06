@@ -2,14 +2,8 @@
 {-# LANGUAGE RecordWildCards #-}
 module Executer where
 
+import Machine
 import Helpers
-
-type Mem = [Integer]
-data Machine = Machine {
-             dirPointer :: Direction,
-             codelChooser :: Direction,
-             mem :: [Integer]
-} deriving (Show)
 
 updMemWith :: ([Integer] -> [Integer]) -> Machine -> Machine
 updMemWith f m@(Machine {..}) = m {mem = f mem}
