@@ -2,6 +2,9 @@
 {-# LANGUAGE RecordWildCards #-}
 module Commands where
 
+import Control.Applicative
+import Data.Char
+
 import Machine
 import Helpers
 
@@ -23,8 +26,10 @@ data Command = Push
              | Switch
              | Duplicate
              | Roll
-             | In
-             | Out
+             | InInt
+             | InChar
+             | OutInt
+             | OutChar
              deriving (Show, Read)
 
 apply :: Command -> Integer -> Machine -> IO Machine
@@ -62,10 +67,18 @@ apply Duplicate _ m = return . updMemWith (\(x:r) -> x:x:r) $ m
 apply Roll _ m@(Machine {mem=(x:y:r), ..}) =
         return $ m {mem = roll (fromInteger y) (fromInteger x) r}
 
-apply In _ m = do
+apply InInt _ m = do
     n <- readLn
     return . updMemWith (n:) $ m
 
-apply Out _ m@(Machine{mem=(h:r), ..}) = do
+apply InChar _ m = do
+    n <- toInteger . ord . head <$> getLine
+    return . updMemWith (n:) $ m
+
+apply OutInt _ m@(Machine{mem=(h:r), ..}) = do
     print h
+    return $ m{ mem = r}
+
+apply OutChar _ m@(Machine{mem=(h:r), ..}) = do
+    putChar . chr . fromInteger $ h
     return $ m{ mem = r}
