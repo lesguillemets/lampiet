@@ -22,3 +22,10 @@ colourDiff :: Colour -> Colour -> Maybe (Int, Int)
 colourDiff (Chromatic h0 l0) (Chromatic h1 l1) =
         Just (circDiff h0 h1, circDiff l0 l1)
 colourDiff _ _ = Nothing
+-- |
+-- >>> colourDiff (Chromatic Normal Red) (Chromatic Dark Blue)
+-- Just (1,4)
+-- >>> colourDiff Black (Chromatic Normal Red)
+-- Nothing
+-- >>> colourDiff (Chromatic Dark Blue) (Chromatic Normal Red)
+-- Just (2,2)
