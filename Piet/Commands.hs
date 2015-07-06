@@ -1,6 +1,6 @@
 {-# LANGUAGE DisambiguateRecordFields #-}
 {-# LANGUAGE RecordWildCards #-}
-module Executer where
+module Commands where
 
 import Machine
 import Helpers
