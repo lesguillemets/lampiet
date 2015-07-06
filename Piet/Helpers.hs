@@ -2,6 +2,7 @@ module Helpers (
                cSucc, cPred, circularMove,
                Direction (..),
                RL (..),
+               circDiff,
                roll
                ) where
 

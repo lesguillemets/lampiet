@@ -1,5 +1,5 @@
 module Colours where
-
+import Helpers (circDiff)
 data Lightness = Light | Normal | Dark
                deriving (Bounded, Enum, Show, Eq)
 
@@ -17,3 +17,8 @@ instance Show Colour where
 -- |
 -- >>> print $ Chromatic Light Blue
 -- LightBlue
+
+colourDiff :: Colour -> Colour -> Maybe (Int, Int)
+colourDiff (Chromatic h0 l0) (Chromatic h1 l1) =
+        Just (circDiff h0 h1, circDiff l0 l1)
+colourDiff _ _ = Nothing
