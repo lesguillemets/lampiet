@@ -9,7 +9,8 @@ type ID = Int
 
 data Codel = Codel {
            _c :: Colour,
-           _id :: ID
+           _id :: ID,
+           _area :: Int
 } deriving (Show, Eq)
 
 eqColour :: Codel -> Codel -> Bool
