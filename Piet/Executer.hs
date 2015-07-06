@@ -47,19 +47,18 @@ apply Greater _ m = return . updMemWithOp
 
 apply Pointer _ m@(Machine{mem=(h:r), ..}) =
         return $ m {
-                   dirPointer = cycularMove dirPointer (fromInteger h),
+                   dirPointer = circularMove dirPointer (fromInteger h),
                    mem=r
                    }
 
 apply Switch _ m@(Machine{mem=(h:r), ..}) =
         return $ m {
-                   codelChooser = cycularMove codelChooser (fromInteger h),
+                   codelChooser = circularMove codelChooser (fromInteger h),
                    mem = r
         }
 
 apply Duplicate _ m = return . updMemWith (\(x:r) -> x:x:r) $ m
 
--- TODO
 apply Roll _ m@(Machine {mem=(x:y:r), ..}) =
         return $ m {mem = roll (fromInteger y) (fromInteger x) r}
 

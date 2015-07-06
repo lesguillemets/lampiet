@@ -1,12 +1,12 @@
 module Helpers (
-               cSucc, cPred, cycularMove,
+               cSucc, cPred, circularMove,
                Direction (..),
                RL (..),
                roll
                ) where
 
 cSucc :: (Bounded a, Enum a) => a -> a
-cSucc = flip cycularMove 1
+cSucc = flip circularMove 1
 -- |
 -- >>> cSucc 'a'
 -- 'b'
@@ -14,15 +14,15 @@ cSucc = flip cycularMove 1
 -- False
 
 cPred :: (Bounded a, Enum a) => a -> a
-cPred = flip cycularMove (-1)
+cPred = flip circularMove (-1)
 -- |
 -- >>> cPred 'b'
 -- 'a'
 -- >>> cPred False
 -- True
 
-cycularMove :: (Bounded a, Enum a) => a -> Int -> a
-cycularMove e n = let
+circularMove :: (Bounded a, Enum a) => a -> Int -> a
+circularMove e n = let
     m = 1+fromEnum (maxBound `asTypeOf` e)
     in
         toEnum . (`mod` m) $ n + fromEnum e + m
