@@ -5,6 +5,9 @@ module Helpers (
                roll
                ) where
 
+-- $setup
+-- >>> data Foo = A | B | C | D | E deriving (Bounded, Enum, Show)
+
 cSucc :: (Bounded a, Enum a) => a -> a
 cSucc = flip circularMove 1
 -- |
@@ -12,6 +15,8 @@ cSucc = flip circularMove 1
 -- 'b'
 -- >>> cSucc True
 -- False
+-- >>> cSucc . cSucc $ D
+-- A
 
 cPred :: (Bounded a, Enum a) => a -> a
 cPred = flip circularMove (-1)
