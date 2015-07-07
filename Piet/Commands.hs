@@ -94,12 +94,12 @@ apply InChar _ m = do
     n <- toInteger . ord . head <$> getLine
     return . updMemWith (n:) $ m
 
-apply OutInt _ m@(Machine{mem=[_], ..}) = return m
+apply OutInt _ m@(Machine{mem=[], ..}) = return m
 apply OutInt _ m@(Machine{mem=(h:r), ..}) = do
     print h
     return $ m{ mem = r}
 
-apply OutChar _ m@(Machine{mem=[_], ..}) = return m
+apply OutChar _ m@(Machine{mem=[], ..}) = return m
 apply OutChar _ m@(Machine{mem=(h:r), ..}) = do
     putChar . chr . fromInteger $ h
     return $ m{ mem = r}
