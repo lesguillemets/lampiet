@@ -1,3 +1,4 @@
+module Tester where
 import Colours
 import Commands
 import Machine
@@ -26,6 +27,9 @@ trace0 = zip [
          [
          72,1,101,3,108,2,2,1,1,111,5,5,32,16,119,10,3,114,1,1,100,1,33,1,4
          ]
+-- |
+-- >>> followTrace trace0
+-- Hello world!
 
 followTrace :: [(Colour,Integer)] -> IO ()
 followTrace t = do
@@ -33,9 +37,7 @@ followTrace t = do
         cmds = zipWith
                 (\(c0,x) (c1,_) -> (fromColours c0 c1,x)) t (tail t)
     ml <- flip connect m $ map (\(c,w) -> apply (fromJust c) w) cmds
-    print ml
+    return ()
 
 connect :: Monad m => [a -> m a] -> a -> m a
 connect = foldl' (>=>) return
-
-main = followTrace trace0
