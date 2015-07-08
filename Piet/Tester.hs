@@ -1,6 +1,7 @@
 module Tester where
 import Colours
 import Commands
+import Direction
 import Machine
 import Data.List (foldl')
 import Data.Maybe

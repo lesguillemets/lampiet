@@ -1,7 +1,5 @@
 module Helpers (
-               cSucc, cPred, circularMove,
-               Direction (..),
-               RL (..),
+               circularMove,
                circDiff,
                roll
                ) where
@@ -45,10 +43,6 @@ circDiff x y = let
 -- 3
 -- >>> circDiff D B -- D -> E -> A -> b
 -- 3
-
-data Direction = Up | Rt | Dw | Lf deriving (Bounded,Enum,Show)
-
-data RL = RLRight | RLLeft deriving (Bounded,Enum,Show)
 
 roll :: Int -> Int -> [a] -> [a]
 roll depth n xs = let

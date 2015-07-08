@@ -7,6 +7,7 @@ import Data.Char
 
 import Machine
 import Colours
+import Direction
 import Helpers
 
 updMemWith :: ([Integer] -> [Integer]) -> Machine -> Machine

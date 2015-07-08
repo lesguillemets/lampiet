@@ -1,5 +1,6 @@
 module Machine where
 
+import Direction
 import Helpers
 
 type Mem = [Integer]
