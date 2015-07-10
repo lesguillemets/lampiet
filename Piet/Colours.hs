@@ -57,6 +57,15 @@ fromRGB (r', g', b') =
                     case (h,lightness) of
                         (Just hu, Just li) -> Chromatic li hu
                         _  -> defaultColour
+-- |
+-- >>> fromRGB (255,255,255)
+-- White
+-- >>> fromRGB (192,192,255)
+-- LightBlue
+-- >>> fromRGB (192,255,156)
+-- White
+-- >>> fromRGB (0,192,192)
+-- DarkCyan
 
 colourDiff :: Colour -> Colour -> Maybe (Int, Int)
 colourDiff (Chromatic h0 l0) (Chromatic h1 l1) =
