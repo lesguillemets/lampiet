@@ -1,4 +1,6 @@
 module Colours where
+import Data.List (sort)
+
 import Helpers (circDiff)
 data Lightness = Light | Normal | Dark
                deriving (Bounded, Enum, Show, Eq)
@@ -19,9 +21,14 @@ instance Show Colour where
 -- LightBlue
 
 cv0 :: Int
+cv1 :: Int
+cv2 :: Int
 cv0 = 0
 cv1 = 192 -- c0
 cv2 = 255 -- ff
+
+defaultColour :: Colour
+defaultColour = White
 
 fromRGB :: Integral a => (a,a,a) -> Colour
 fromRGB (r', g', b') =
@@ -29,12 +36,11 @@ fromRGB (r', g', b') =
         r = fromIntegral r'
         g = fromIntegral g'
         b = fromIntegral b'
-        s = minimum [r,g,b]
-        l = maximum [r,g,b]
+        [s,m,l] = sort [r,g,b]
         lightness
-            | s == cv0 && l == cv2 = Just Normal
-            | s == cv1 && l == cv2 = Just Light
-            | s == cv0 && l == cv1 = Just Dark
+            | s == cv0 && l == cv2 && ( m==l || m==s) = Just Normal
+            | s == cv1 && l == cv2 && ( m==l || m==s) = Just Light
+            | s == cv0 && l == cv1 && ( m==l || m==s) = Just Dark
             | otherwise = Nothing
         h = case (r `compare` g, g `compare` b) of
                 (GT,EQ) -> Just Red
@@ -45,11 +51,12 @@ fromRGB (r', g', b') =
                 (GT,LT) -> Just Magenta
                 _ -> Nothing
         in
-            case (h,lightness) of
-                (Just hu, Just li) -> Chromatic li hu
-                _  -> if s == cv0 && l == cv0
-                          then Black
-                          else White
+            if s == cv0 && l == cv0
+                then Black
+                else
+                    case (h,lightness) of
+                        (Just hu, Just li) -> Chromatic li hu
+                        _  -> defaultColour
 
 colourDiff :: Colour -> Colour -> Maybe (Int, Int)
 colourDiff (Chromatic h0 l0) (Chromatic h1 l1) =
