@@ -1,5 +1,4 @@
 module Colours where
-import Data.List (sort)
 
 import Helpers (circDiff)
 data Lightness = Light | Normal | Dark
@@ -36,22 +35,23 @@ fromRGB (r', g', b') =
         r = fromIntegral r'
         g = fromIntegral g'
         b = fromIntegral b'
-        [s,m,l] = sort [r,g,b]
+        s = minimum [r,g,b]
+        l = maximum [r,g,b]
         lightness
-            | s == cv0 && l == cv2 && ( m==l || m==s ) = Just Normal
-            | s == cv1 && l == cv2 && ( m==l || m==s ) = Just Light
-            | s == cv0 && l == cv1 && ( m==l || m==s ) = Just Dark
+            | s == cv0 && l == cv2 = Just Normal
+            | s == cv1 && l == cv2 = Just Light
+            | s == cv0 && l == cv1 = Just Dark
             | otherwise = Nothing
-        h = case (r `compare` g, g `compare` b) of
-                (GT,EQ) -> Just Red
-                (EQ,GT) -> Just Yellow
-                (LT,GT) -> Just Green
-                (LT,EQ) -> Just Cyan
-                (EQ,LT) -> Just Blue
-                (GT,LT) -> Just Magenta
+        h = case (r `compare` g, g `compare` b, b `compare` r) of
+                (GT,EQ,LT) -> Just Red
+                (EQ,GT,LT) -> Just Yellow
+                (LT,GT,EQ) -> Just Green
+                (LT,EQ,GT) -> Just Cyan
+                (EQ,LT,GT) -> Just Blue
+                (GT,LT,EQ) -> Just Magenta
                 _ -> Nothing
         in
-            if s == cv0 && l == cv0
+            if l == cv0
                 then Black
                 else
                     case (h,lightness) of
