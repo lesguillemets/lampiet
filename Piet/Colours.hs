@@ -38,9 +38,9 @@ fromRGB (r', g', b') =
         b = fromIntegral b'
         [s,m,l] = sort [r,g,b]
         lightness
-            | s == cv0 && l == cv2 && ( m==l || m==s) = Just Normal
-            | s == cv1 && l == cv2 && ( m==l || m==s) = Just Light
-            | s == cv0 && l == cv1 && ( m==l || m==s) = Just Dark
+            | s == cv0 && l == cv2 && ( m==l || m==s ) = Just Normal
+            | s == cv1 && l == cv2 && ( m==l || m==s ) = Just Light
+            | s == cv0 && l == cv1 && ( m==l || m==s ) = Just Dark
             | otherwise = Nothing
         h = case (r `compare` g, g `compare` b) of
                 (GT,EQ) -> Just Red
