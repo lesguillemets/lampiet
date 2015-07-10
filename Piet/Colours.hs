@@ -18,6 +18,39 @@ instance Show Colour where
 -- >>> print $ Chromatic Light Blue
 -- LightBlue
 
+cv0 :: Int
+cv0 = 0
+cv1 = 192 -- c0
+cv2 = 255 -- ff
+
+fromRGB :: Integral a => (a,a,a) -> Colour
+fromRGB (r', g', b') =
+    let
+        r = fromIntegral r'
+        g = fromIntegral g'
+        b = fromIntegral b'
+        s = minimum [r,g,b]
+        l = maximum [r,g,b]
+        lightness
+            | s == cv0 && l == cv2 = Just Normal
+            | s == cv1 && l == cv2 = Just Light
+            | s == cv0 && l == cv1 = Just Dark
+            | otherwise = Nothing
+        h = case (r `compare` g, g `compare` b) of
+                (GT,EQ) -> Just Red
+                (EQ,GT) -> Just Yellow
+                (LT,GT) -> Just Green
+                (LT,EQ) -> Just Cyan
+                (EQ,LT) -> Just Blue
+                (GT,LT) -> Just Magenta
+                _ -> Nothing
+        in
+            case (h,lightness) of
+                (Just hu, Just li) -> Chromatic li hu
+                _  -> if s == cv0 && l == cv0
+                          then Black
+                          else White
+
 colourDiff :: Colour -> Colour -> Maybe (Int, Int)
 colourDiff (Chromatic h0 l0) (Chromatic h1 l1) =
         Just (circDiff h0 h1, circDiff l0 l1)
