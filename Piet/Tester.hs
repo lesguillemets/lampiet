@@ -72,5 +72,9 @@ sampleLoaded = Loaded $ listArray ((0,0),(2,2))
 -- >>> findEdge sampleLoaded Lf (2,0)
 -- [(1,2)]
 
+-- |
+-- >>> findNext sampleLoaded Dw RLRight (2,0)
+-- (1,2)
+
 connect :: Monad m => [a -> m a] -> a -> m a
 connect = foldl' (>=>) return

@@ -39,5 +39,9 @@ findEdge l d loc =
             . sortBy (towards d) -- sort by how far
             $ connectedArea l loc -- Codels connected to this
 
+findNext :: Loaded -> Direction -> RL -> Loc -> Loc
+findNext l d rl loc =
+    minimumBy (towards (look d rl)) $ findEdge l d loc
+
 validLoc :: Loaded -> Loc -> Bool
 validLoc (Loaded l) loc = _c (l!loc)  /= Black && IA.inRange (IA.bounds l) loc
