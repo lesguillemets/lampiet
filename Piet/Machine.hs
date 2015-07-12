@@ -22,3 +22,6 @@ turnDP m@(Machine {..}) = m {dirPointer = turnRight dirPointer}
 
 toggleCC :: Machine -> Machine
 toggleCC m@(Machine {..}) = m {codelChooser = flipRL codelChooser}
+
+moveTo :: Machine -> Loc -> Machine
+moveTo m@(Machine {..}) newloc = m {loc = newloc}

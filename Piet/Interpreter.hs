@@ -24,10 +24,10 @@ run l m = run' m 0 where
                Nothing -> run' (if counter `mod` 2 == 0
                                      then toggleCC m
                                      else turnDP m) (counter + 1)
-               (Just nextloc) -> let
+               (Just nextLoc) -> let
                    c0 = l `colourAt` (loc m)
-                   c1 = l `colourAt` nextloc
+                   c1 = l `colourAt` nextLoc
                    area = l `areaAt` (loc m)
                    com = fromColours c0 c1
-                   in
-                       applyMaybe com (fromIntegral area) m >>= run l
+                   in applyMaybe com (fromIntegral area) (moveTo m nextLoc)
+                        >>= run l
