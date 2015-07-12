@@ -1,6 +1,6 @@
 module Loader where
-import qualified Data.Array as A
-import Data.Array ((!))
+import qualified Data.Array.IArray as IA
+import Data.Array.IArray ((!))
 import Data.Function
 import Data.List
 
@@ -8,7 +8,7 @@ import Colours
 import Direction
 import Helpers
 
-newtype Loaded = Loaded (A.Array Loc Codel)
+newtype Loaded = Loaded (IA.Array Loc Codel)
 
 data Codel = Codel {
            _c :: Colour,
@@ -27,7 +27,7 @@ loadImg = undefined
 
 connectedArea :: Loaded -> Loc -> [Loc]
 connectedArea (Loaded l) loc =
-    map fst . filter (eqID (l!loc) . snd) $ A.assocs l
+    map fst . filter (eqID (l!loc) . snd) $ IA.assocs l
 
 findEdge :: Loaded -> Direction -> Loc -> [Loc]
 findEdge l d loc =
