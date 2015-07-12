@@ -22,15 +22,15 @@ turnRight = flip circularMove 1
 -- [Rt,Dw,Lf,Up]
 
 -- FIXME :: saner inprementation
-towards :: Direction -> Loc -> Loc -> Bool
-towards Up (_,y0) (_,y) = y <= y0
-towards Dw (_,y0) (_,y) = y0 <= y
-towards Rt (x0,_) (x,_) = x0 <= x
-towards Lf (x0,_) (x,_) = x <= x0
+towards :: Direction -> Loc -> Loc -> Ordering
+towards Up (_,y0) (_,y) = y0 `compare` y
+towards Dw (_,y0) (_,y) = y `compare` y0
+towards Rt (x0,_) (x,_) = x `compare` x0
+towards Lf (x0,_) (x,_) = x0 `compare` x
 -- |
 -- towards direction loc0 loc1 :
 -- is <loc1> is on <direction> when looked from <loc0>?
 -- >>> towards Up (5,5) (10,2)
--- True
+-- GT
 -- >>> towards Rt (2,3) (5,0)
--- True
+-- GT
