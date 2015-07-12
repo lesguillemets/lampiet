@@ -34,3 +34,6 @@ findEdge l d loc =
         head . groupBy (\l0 l1 -> towards d l0 l1 == EQ) -- take farthests
             . sortBy (towards d) -- sort by how far
             $ connectedArea l loc -- Codels connected to this
+
+validLoc :: Loaded -> Loc -> Bool
+validLoc (Loaded l) loc = _c (l!loc)  /= Black && IA.inRange (IA.bounds l) loc
