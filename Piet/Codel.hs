@@ -28,9 +28,6 @@ eqColour = (==) `on` _c
 eqID :: Codel -> Codel -> Bool
 eqID = (==) `on` _id
 
-loadImg :: FilePath -> IO Loaded
-loadImg = undefined
-
 connectedArea :: Loaded -> Loc -> [Loc]
 connectedArea (Loaded l) loc =
     map fst . filter (eqID (l!loc) . snd) $ IA.assocs l
