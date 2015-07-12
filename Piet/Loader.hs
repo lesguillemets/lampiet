@@ -46,4 +46,5 @@ findNext l d rl loc =
     minimumBy (towards (look d rl)) $ findEdge l d loc
 
 validLoc :: Loaded -> Loc -> Bool
-validLoc (Loaded l) loc = _c (l!loc)  /= Black && IA.inRange (IA.bounds l) loc
+validLoc (Loaded l) loc =
+        IA.inRange (IA.bounds l) loc && _c (l!loc)  /= Black
