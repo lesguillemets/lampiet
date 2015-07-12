@@ -3,7 +3,7 @@ import Colours
 import Commands
 import Direction
 import Machine
-import Loader
+import Codel
 import Interpreter
 import Data.List (foldl')
 import Data.Maybe

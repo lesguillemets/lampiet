@@ -3,7 +3,7 @@ module Interpreter where
 import Commands
 import Direction
 import Helpers
-import Loader
+import Codel
 import Machine
 
 tryMove :: Loaded -> Direction -> RL -> Loc -> Maybe Loc

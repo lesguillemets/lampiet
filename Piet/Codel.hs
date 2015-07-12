@@ -1,4 +1,4 @@
-module Loader where
+module Codel where
 import qualified Data.Array.IArray as IA
 import Data.Array.IArray ((!))
 import Data.Function
