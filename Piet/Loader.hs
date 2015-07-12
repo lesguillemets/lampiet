@@ -8,7 +8,7 @@ import Colours
 import Direction
 import Helpers
 
-newtype Loaded = Loaded (IA.Array Loc Codel)
+newtype Loaded = Loaded (IA.Array Loc Codel) deriving (Show)
 
 data Codel = Codel {
            _c :: Colour,
@@ -32,5 +32,5 @@ connectedArea (Loaded l) loc =
 findEdge :: Loaded -> Direction -> Loc -> [Loc]
 findEdge l d loc =
         head . groupBy (\l0 l1 -> towards d l0 l1 == EQ) -- take farthests
-            . sortBy (flip (towards d)) -- sort by how far
+            . sortBy (towards d) -- sort by how far
             $ connectedArea l loc -- Codels connected to this
