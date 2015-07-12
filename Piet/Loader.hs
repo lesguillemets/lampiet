@@ -10,6 +10,10 @@ import Helpers
 
 newtype Loaded = Loaded (IA.Array Loc Codel) deriving (Show)
 
+colourAt :: Loaded -> Loc -> Colour
+colourAt (Loaded l) loc = _c $ l ! loc
+
+
 data Codel = Codel {
            _c :: Colour,
            _id :: ID,
