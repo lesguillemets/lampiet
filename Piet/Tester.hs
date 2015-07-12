@@ -3,8 +3,10 @@ import Colours
 import Commands
 import Direction
 import Machine
+import Loader
 import Data.List (foldl')
 import Data.Maybe
+import Data.Array.IArray (listArray)
 import Control.Monad
 
 -- the trace of the sample program
@@ -39,6 +41,36 @@ followTrace t = do
                 (\(c0,x) (c1,_) -> (fromColours c0 c1,x)) t (tail t)
     ml <- flip connect m $ map (\(c,w) -> apply (fromJust c) w) cmds
     return ()
+
+sampleLoaded :: Loaded
+-- LB DG NM
+-- LB LB NM
+-- LB NM NM
+sampleLoaded = Loaded $ listArray ((0,0),(2,2))
+        [
+        Codel (Chromatic Light Blue) 0 4,
+        Codel (Chromatic Light Blue) 0 4,
+        Codel (Chromatic Light Blue) 0 4,
+        Codel (Chromatic Dark Green) 1 1,
+        Codel (Chromatic Light Blue) 0 4,
+        Codel (Chromatic Normal Magenta) 2 4,
+        Codel (Chromatic Normal Magenta) 2 4,
+        Codel (Chromatic Normal Magenta) 2 4,
+        Codel (Chromatic Normal Magenta) 2 4
+        ]
+-- |
+-- >>> findEdge sampleLoaded Rt (0,0)
+-- [(1,1)]
+-- >>> findEdge sampleLoaded Lf (0,0)
+-- [(0,0),(0,1),(0,2)]
+-- >>> findEdge sampleLoaded Dw (0,0)
+-- [(0,2)]
+-- >>> findEdge sampleLoaded Up (0,0)
+-- [(0,0)]
+-- >>> findEdge sampleLoaded Dw (1,0)
+-- [(1,0)]
+-- >>> findEdge sampleLoaded Lf (2,0)
+-- [(1,2)]
 
 connect :: Monad m => [a -> m a] -> a -> m a
 connect = foldl' (>=>) return
