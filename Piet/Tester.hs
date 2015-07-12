@@ -4,10 +4,80 @@ import Commands
 import Direction
 import Machine
 import Loader
+import Interpreter
 import Data.List (foldl')
 import Data.Maybe
 import Data.Array.IArray (listArray)
 import Control.Monad
+
+-- sample : Hi
+hiLoaded :: Loaded
+hiLoaded = Loaded $ listArray ((0,0),(9,9))
+    [
+    Codel (Chromatic Normal Blue) 0 9, Codel (Chromatic Normal Blue) 0 9,
+    Codel (Chromatic Normal Blue) 0 9, Codel (Chromatic Normal Red) 1 12,
+    Codel (Chromatic Normal Red) 1 12, Codel (Chromatic Normal Red) 1 12,
+    Codel (Chromatic Normal Yellow) 2 4, Codel (Chromatic Normal Yellow) 2 4,
+    Codel Black 3 16, Codel (Chromatic Normal Yellow) 4 2,
+    --
+    Codel (Chromatic Normal Blue) 0 9, Codel (Chromatic Normal Blue) 0 9,
+    Codel (Chromatic Normal Blue) 0 9, Codel (Chromatic Normal Red) 1 12,
+    Codel (Chromatic Normal Red) 1 12, Codel (Chromatic Normal Red) 1 12,
+    Codel (Chromatic Normal Yellow) 2 4, Codel (Chromatic Normal Yellow) 2 4,
+    Codel Black 3 16, Codel (Chromatic Normal Yellow) 4 2,
+    --
+    Codel (Chromatic Normal Blue) 0 9, Codel (Chromatic Normal Blue) 0 9,
+    Codel (Chromatic Normal Blue) 0 9, Codel (Chromatic Normal Red) 1 12,
+    Codel (Chromatic Normal Red) 1 12, Codel (Chromatic Normal Red) 1 12,
+    Codel Black 3 16, Codel Black 3 16,
+    Codel Black 3 16, Codel Black 3 16,
+    --
+    Codel (Chromatic Dark Blue) 5 8, Codel (Chromatic Dark Blue) 5 8,
+    Codel (Chromatic Dark Blue) 5 8, Codel (Chromatic Normal Red) 1 12,
+    Codel (Chromatic Normal Red) 1 12, Codel (Chromatic Normal Red) 1 12,
+    Codel Black 3 16, Codel (Chromatic Normal Green) 6 6,
+    Codel Black 3 16, Codel (Chromatic Normal Yellow) 7 4,
+    --
+    Codel (Chromatic Dark Blue) 5 8, Codel (Chromatic Dark Blue) 5 8,
+    Codel (Chromatic Dark Blue) 5 8, Codel Black 8 1,
+    Codel (Chromatic Normal Green) 6 6, Codel (Chromatic Normal Green) 6 6,
+    Codel (Chromatic Normal Green) 6 6, Codel (Chromatic Normal Green) 6 6,
+    Codel Black 3 16, Codel (Chromatic Normal Yellow) 7 4,
+    --
+    Codel (Chromatic Dark Blue) 5 8, Codel (Chromatic Normal Green) 8 11,
+    Codel (Chromatic Dark Blue) 5 8, Codel (Chromatic Normal Red) 9 2,
+    Codel (Chromatic Dark Cyan) 10 1, Codel (Chromatic Normal Red) 11 2,
+    Codel Black 3 16, Codel (Chromatic Normal Green) 6 6,
+    Codel Black 3 16, Codel (Chromatic Normal Yellow) 7 4,
+    --
+    Codel Black 12 1, Codel (Chromatic Normal Green) 8 11,
+    Codel (Chromatic Light Blue) 13 1, Codel (Chromatic Normal Red) 9 2,
+    Codel (Chromatic Normal Cyan) 14 10, Codel (Chromatic Normal Red) 11 2,
+    Codel Black 3 16, Codel Black 3 16,
+    Codel Black 3 16, Codel (Chromatic Normal Yellow) 7 4,
+    --
+    Codel (Chromatic Normal Green) 8 11, Codel (Chromatic Normal Green) 8 11,
+    Codel (Chromatic Dark Magenta) 15 1, Codel (Chromatic Normal Cyan) 14 10,
+    Codel (Chromatic Normal Cyan) 14 10, Codel (Chromatic Normal Cyan) 14 10,
+    Codel (Chromatic Normal Cyan) 14 10, Codel (Chromatic Normal Cyan) 14 10,
+    Codel Black 3 16, Codel Black 3 16,
+    --
+    Codel (Chromatic Normal Green) 8 11, Codel (Chromatic Normal Green) 8 11,
+    Codel (Chromatic Dark Cyan) 16 1, Codel (Chromatic Normal Red) 17 1,
+    Codel (Chromatic Normal Cyan) 14 10, Codel (Chromatic Dark Green) 18 3,
+    Codel (Chromatic Dark Green) 18 3, Codel (Chromatic Normal Cyan) 14 10,
+    Codel (Chromatic Normal Cyan) 14 10, Codel (Chromatic Normal Cyan) 14 10,
+    --
+    Codel Black 19 1, Codel (Chromatic Normal Green) 8 11,
+    Codel (Chromatic Normal Green) 8 11, Codel (Chromatic Normal Green) 8 11,
+    Codel (Chromatic Normal Green) 8 11, Codel (Chromatic Normal Green) 8 11,
+    Codel (Chromatic Dark Green) 18 3, Codel (Chromatic Light Green) 19 1,
+    Codel (Chromatic Dark Cyan) 20 1, Codel (Chromatic Dark Blue) 21 1
+    ]
+
+-- |
+-- >>> _ <- run hiLoaded initialMachine
+-- Hi
 
 -- the trace of the sample program
 -- (
