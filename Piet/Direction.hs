@@ -15,6 +15,7 @@ flipDir = flip circularMove 2
 -- >>> flipDir Lf
 -- Rt
 
+
 turnRight :: Direction -> Direction
 turnRight = flip circularMove 1
 -- |
@@ -23,6 +24,11 @@ turnRight = flip circularMove 1
 
 -- FIXME :: saner inprementation
 towards :: Direction -> Loc -> Loc -> Ordering
+
+flipRL :: RL -> RL
+flipRL RLRight = RLLeft
+flipRL RLLeft = RLRight
+
 towards Up (_,y0) (_,y) = y0 `compare` y
 towards Dw (_,y0) (_,y) = y `compare` y0
 towards Rt (x0,_) (x,_) = x `compare` x0

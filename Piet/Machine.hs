@@ -1,3 +1,5 @@
+{-# LANGUAGE DisambiguateRecordFields #-}
+{-# LANGUAGE RecordWildCards #-}
 module Machine where
 
 import Direction
@@ -14,3 +16,9 @@ data Machine = Machine {
 
 initialMachine :: Machine
 initialMachine = Machine Rt RLLeft (0,0) []
+
+turnDP :: Machine -> Machine
+turnDP m@(Machine {..}) = m {dirPointer = turnRight dirPointer}
+
+toggleCC :: Machine -> Machine
+toggleCC m@(Machine {..}) = m {codelChooser = flipRL codelChooser}
