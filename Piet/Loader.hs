@@ -3,7 +3,7 @@ import qualified Data.Array as A
 import Data.Function
 import Colours
 
-data Loaded = Loaded (A.Array (Int,Int) Codel)
+newtype Loaded = Loaded (A.Array (Int,Int) Codel)
 
 type ID = Int
 
