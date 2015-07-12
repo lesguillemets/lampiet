@@ -43,3 +43,9 @@ look d RLLeft = circularMove d (-1)
 -- Dw
 -- >>> look Dw RLLeft
 -- Rt
+
+moveStep :: Direction -> Loc -> Loc
+moveStep Up (x,y) = (x,y-1)
+moveStep Dw (x,y) = (x,y+1)
+moveStep Rt (x,y) = (x+1,y)
+moveStep Lf (x,y) = (x-1,y)
