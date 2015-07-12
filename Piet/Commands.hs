@@ -104,3 +104,7 @@ apply OutChar _ m@(Machine{mem=[], ..}) = return m
 apply OutChar _ m@(Machine{mem=(h:r), ..}) = do
     putChar . chr . fromInteger $ h
     return $ m{ mem = r}
+
+applyMaybe :: Maybe Command -> Integer -> Machine -> IO Machine
+applyMaybe Nothing _ m = return m
+applyMaybe (Just c) i m = apply c i m
