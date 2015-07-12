@@ -1,8 +1,12 @@
 module Helpers (
+               ID,Loc,
                circularMove,
                circDiff,
                roll
                ) where
+
+type ID = Int
+type Loc = (Int,Int)
 
 -- $setup
 -- >>> data Foo = A | B | C | D | E deriving (Bounded, Enum, Show)

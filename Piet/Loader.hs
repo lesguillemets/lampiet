@@ -2,10 +2,10 @@ module Loader where
 import qualified Data.Array as A
 import Data.Function
 import Colours
+import Direction
+import Helpers
 
-newtype Loaded = Loaded (A.Array (Int,Int) Codel)
-
-type ID = Int
+newtype Loaded = Loaded (A.Array Loc Codel)
 
 data Codel = Codel {
            _c :: Colour,
