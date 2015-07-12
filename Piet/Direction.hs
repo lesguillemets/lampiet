@@ -34,3 +34,12 @@ towards Lf (x0,_) (x,_) = x0 `compare` x
 -- GT
 -- >>> towards Rt (2,3) (5,0)
 -- GT
+
+look :: Direction -> RL -> Direction
+look d RLRight = circularMove d 1
+look d RLLeft = circularMove d (-1)
+-- |
+-- >>> look Rt RLRight
+-- Dw
+-- >>> look Dw RLLeft
+-- Rt
