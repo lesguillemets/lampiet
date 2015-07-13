@@ -37,6 +37,7 @@ data Command = Skip
              | OutChar
              deriving (Show, Read, Enum)
 
+-- TODO : handle white
 fromColours :: Colour -> Colour -> Maybe Command
 fromColours x y = (\(l,h) -> toEnum $ 3*h + l) <$> colourDiff x y
 -- |
