@@ -10,7 +10,9 @@ import Colours
 import Helpers
 
 loadImg :: FilePath -> IO Loaded
-loadImg = undefined
+loadImg f = do
+    (Right pict) <- readImg f
+    return $ parse pict
 
 readImg :: FilePath -> IO (Either String (IA.Array Loc (Word8,Word8,Word8)))
 readImg fname = do
@@ -25,4 +27,7 @@ readImg fname = do
 
 toArr :: Image PixelRGB8 -> IA.Array Loc (Word8,Word8,Word8)
 toArr = undefined
+
+parse :: IA.Array Loc (Word8,Word8,Word8) -> Loaded
+parse = undefined
 
